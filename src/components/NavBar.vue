@@ -35,7 +35,7 @@ const socialLinksWithIcons = SOCIAL_LINKS.map((link) => ({
   <Motion class="fixed top-8 right-8 z-30" v-bind="ANIMATION_CONFIG.hamburger">
     <button
       @click="toggleSidebar"
-      class="w-14 h-14 rounded-full border-2 border-white/30 dark:border-white/30 bg-white/5 dark:bg-transparent flex items-center justify-center transition-all duration-300 hover:border-white dark:hover:border-white hover:cursor-pointer hover:bg-white/10 dark:hover:bg-white/10 hover:scale-110 group"
+      class="w-14 h-14 rounded-full border-2 border-black dark:border-white/30 bg-white/5 dark:bg-transparent flex items-center justify-center transition-all duration-300 hover:border-black dark:hover:border-white hover:cursor-pointer hover:bg-white/10 dark:hover:bg-white/10 hover:scale-110 group"
       aria-label="Toggle menu"
     >
       <Menu
