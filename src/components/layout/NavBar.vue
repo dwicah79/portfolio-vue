@@ -1,10 +1,12 @@
 <script setup>
-import { Menu, X, Github, Instagram, Linkedin } from 'lucide-vue-next'
+import { Menu, X, Github, Instagram, Linkedin, Sun, Moon } from 'lucide-vue-next'
 import { useSidebar } from '@/composables/useSidebar'
+import { useTheme } from '@/composables/useTheme'
 import { MENU_ITEMS, SOCIAL_LINKS, ANIMATION_CONFIG } from '@/constants'
 
-// Composable
+// Composables
 const { isSidebarOpen, toggleSidebar } = useSidebar()
+const { toggleTheme, isDark } = useTheme()
 
 // Map social icons
 const socialLinksWithIcons = SOCIAL_LINKS.map((link) => ({
@@ -14,6 +16,26 @@ const socialLinksWithIcons = SOCIAL_LINKS.map((link) => ({
 </script>
 
 <template>
+  <!-- Theme Toggle Button -->
+  <Motion class="fixed top-8 left-8 z-30" v-bind="ANIMATION_CONFIG.hamburger">
+    <button
+      @click="toggleTheme"
+      class="w-14 h-14 rounded-full border-2 border-white/30 flex items-center justify-center transition-all duration-300 hover:border-white hover:bg-white/10 hover:scale-110 group"
+      aria-label="Toggle theme"
+    >
+      <Sun
+        v-if="isDark()"
+        :size="28"
+        class="text-white/70 group-hover:text-white group-hover:cursor-pointer transition-colors duration-300"
+      />
+      <Moon
+        v-else
+        :size="28"
+        class="text-white/70 group-hover:text-white group-hover:cursor-pointer transition-colors duration-300"
+      />
+    </button>
+  </Motion>
+
   <!-- Hamburger Menu Button -->
   <Motion class="fixed top-8 right-8 z-30" v-bind="ANIMATION_CONFIG.hamburger">
     <button
