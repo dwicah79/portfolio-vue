@@ -1,10 +1,27 @@
 <script setup>
-import { Menu, X, Github, Instagram, Linkedin } from 'lucide-vue-next'
+import { computed } from 'vue'
+import { Menu, X, Github, Instagram, Linkedin, Moon, Sun, Languages } from 'lucide-vue-next'
 import { useSidebar } from '@/composables/useSidebar'
+import { useTheme } from '@/composables/useTheme'
+import { useLanguage } from '@/composables/useLanguage'
 import { MENU_ITEMS, SOCIAL_LINKS, ANIMATION_CONFIG } from '@/constants'
+import { getTranslation } from '@/constants/translations'
 
 // Composable
 const { isSidebarOpen, toggleSidebar } = useSidebar()
+const { theme, toggleTheme } = useTheme()
+const { locale, toggleLanguage } = useLanguage()
+
+// Translation helper
+const t = (key) => computed(() => getTranslation(locale.value, key))
+
+// Translate menu items
+const translatedMenuItems = computed(() => {
+  return MENU_ITEMS.map((item) => ({
+    ...item,
+    name: getTranslation(locale.value, `nav.menu.${item.id}`),
+  }))
+})
 
 // Map social icons
 const socialLinksWithIcons = SOCIAL_LINKS.map((link) => ({
@@ -62,7 +79,7 @@ const socialLinksWithIcons = SOCIAL_LINKS.map((link) => ({
           <h2
             class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-3 md:mb-4"
           >
-            Navigation
+            {{ t('nav.title').value }}
           </h2>
           <div
             class="w-32 sm:w-40 md:w-52 h-0.5 md:h-1 bg-linear-to-r from-gray-400 to-gray-300"
@@ -72,7 +89,7 @@ const socialLinksWithIcons = SOCIAL_LINKS.map((link) => ({
         <!-- Menu Items -->
         <nav class="space-y-1 md:space-y-2">
           <Motion
-            v-for="(item, index) in MENU_ITEMS"
+            v-for="(item, index) in translatedMenuItems"
             :key="item.id"
             :initial="ANIMATION_CONFIG.menuItem.initial"
             :animate="isSidebarOpen ? { x: 0, opacity: 1 } : { x: 100, opacity: 0 }"
@@ -108,7 +125,7 @@ const socialLinksWithIcons = SOCIAL_LINKS.map((link) => ({
         <!-- Social Links -->
         <div class="mt-8 md:mt-16 pt-6 md:pt-8 border-t border-white/10">
           <p class="text-white/40 text-xs md:text-sm mb-3 md:mb-4 uppercase tracking-wider">
-            Follow Me
+            {{ t('nav.followMe').value }}
           </p>
           <div class="flex gap-3 md:gap-4">
             <a
@@ -126,6 +143,46 @@ const socialLinksWithIcons = SOCIAL_LINKS.map((link) => ({
                 class="md:w-[18px] md:h-[18px] text-white/50 hover:text-sky-400 transition-colors duration-300"
               />
             </a>
+          </div>
+        </div>
+
+        <!-- Theme & Language Controls -->
+        <div class="mt-6 md:mt-6 pt-6 md:pt-6 border-t border-white/10">
+          <div class="flex gap-3 md:gap-4">
+            <!-- Theme Toggle -->
+            <button
+              @click="toggleTheme"
+              class="w-9 h-9 md:w-14 md:h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center transition-all duration-300 hover:bg-sky-400/20 hover:border-sky-400 hover:scale-110"
+              :aria-label="`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`"
+            >
+              <Moon
+                v-if="theme === 'light'"
+                :size="16"
+                class="md:w-[18px] md:h-[18px] text-white/50 hover:text-sky-400 transition-colors duration-300"
+              />
+              <Sun
+                v-else
+                :size="16"
+                class="md:w-[18px] md:h-[18px] text-white/50 hover:text-sky-400 transition-colors duration-300"
+              />
+            </button>
+
+            <!-- Language Toggle -->
+            <button
+              @click="toggleLanguage"
+              class="w-9 h-9 md:w-14 md:h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center transition-all duration-300 hover:bg-sky-400/20 hover:border-sky-400 hover:cursor-pointer hover:scale-110 relative"
+              :aria-label="`Switch to ${locale === 'id' ? 'English' : 'Indonesian'}`"
+            >
+              <Languages
+                :size="16"
+                class="md:w-[18px] md:h-[18px] text-white/50 hover:text-sky-400 transition-colors duration-300"
+              />
+              <span
+                class="absolute -bottom-1 -right-1 text-[8px] md:text-[9px] font-bold bg-sky-500 text-white rounded-full w-4 h-4 md:w-5 md:h-5 flex items-center justify-center uppercase"
+              >
+                {{ locale }}
+              </span>
+            </button>
           </div>
         </div>
       </div>
