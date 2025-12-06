@@ -23,7 +23,7 @@ const socialLinksWithIcons = SOCIAL_LINKS.map((link) => ({
     >
       <Menu
         :size="28"
-        class="text-white/70 group-hover:text-white transition-colors duration-300"
+        class="text-white/70 group-hover:text-white group-hover:cursor-pointer transition-colors duration-300"
       />
     </button>
   </Motion>
