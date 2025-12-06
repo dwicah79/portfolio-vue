@@ -7,18 +7,15 @@ import { MENU_ITEMS, SOCIAL_LINKS, ANIMATION_CONFIG } from '@/constants'
 const { isSidebarOpen, toggleSidebar } = useSidebar()
 
 // Map social icons
-const socialLinksWithIcons = SOCIAL_LINKS.map(link => ({
+const socialLinksWithIcons = SOCIAL_LINKS.map((link) => ({
   ...link,
-  icon: link.name === 'Github' ? Github : link.name === 'Instagram' ? Instagram : Linkedin
+  icon: link.name === 'Github' ? Github : link.name === 'Instagram' ? Instagram : Linkedin,
 }))
 </script>
 
 <template>
   <!-- Hamburger Menu Button -->
-  <Motion
-    class="fixed top-8 right-8 z-30"
-    v-bind="ANIMATION_CONFIG.hamburger"
-  >
+  <Motion class="fixed top-8 right-8 z-30" v-bind="ANIMATION_CONFIG.hamburger">
     <button
       @click="toggleSidebar"
       class="w-14 h-14 rounded-full border-2 border-white/30 flex items-center justify-center transition-all duration-300 hover:border-white hover:bg-white/10 hover:scale-110 group"
@@ -81,7 +78,7 @@ const socialLinksWithIcons = SOCIAL_LINKS.map(link => ({
             :animate="isSidebarOpen ? { x: 0, opacity: 1 } : { x: 100, opacity: 0 }"
             :transition="{
               ...ANIMATION_CONFIG.menuItem.transition,
-              delay: index * 0.1
+              delay: index * 0.1,
             }"
           >
             <a
