@@ -4,15 +4,20 @@ import { Github, Instagram, Linkedin } from 'lucide-vue-next'
 import NavBar from './NavBar.vue'
 import { useMousePosition } from '@/composables/useMousePosition'
 import { useLanguage } from '@/composables/useLanguage'
+import { useTheme } from '@/composables/useTheme'
 import { SOCIAL_LINKS } from '@/constants'
 import { getTranslation } from '@/constants/translations'
 
 // Composables
 const { mouseX, mouseY, handleMove } = useMousePosition()
 const { locale } = useLanguage()
+const { theme } = useTheme()
 
 // Translation helper
 const t = (key) => computed(() => getTranslation(locale.value, key))
+
+// Dynamic opacity based on theme
+const imageOpacity = computed(() => (theme.value === 'dark' ? 0.3 : 1))
 
 // Map social icons
 const socialLinks = SOCIAL_LINKS.map((link) => ({
@@ -23,25 +28,22 @@ const socialLinks = SOCIAL_LINKS.map((link) => ({
 
 <template>
   <header
-    class="w-screen h-screen bg-black flex items-center justify-center relative overflow-hidden"
+    class="w-screen h-screen bg-white dark:bg-black flex items-center justify-center relative overflow-hidden"
     @mousemove="handleMove"
   >
-    <!-- Cursor Glow Effect -->
     <div
       class="w-[150px] h-[150px] fixed pointer-events-none rounded-full blur-2xl -translate-x-1/2 -translate-y-1/2 mix-blend-screen z-2"
       style="background: radial-gradient(circle, rgba(0, 255, 255, 0.3), rgba(0, 255, 255, 0) 70%)"
       :style="{ left: mouseX + 'px', top: mouseY + 'px' }"
     />
 
-    <!-- Navigation Component -->
     <NavBar />
 
-    <!-- Main Content -->
     <div class="relative z-10 flex items-center justify-center w-full px-4">
       <Motion
         class="absolute inset-0 flex items-center justify-center"
         :initial="{ y: -500, opacity: 0, rotate: 12 }"
-        :animate="{ y: 0, opacity: 0.3, rotate: 12 }"
+        :animate="{ y: 0, opacity: imageOpacity, rotate: 12 }"
         :transition="{
           duration: 1,
           delay: 0.5,
@@ -51,19 +53,23 @@ const socialLinks = SOCIAL_LINKS.map((link) => ({
         }"
       >
         <div
-          class="w-[300px] h-[300px] md:w-[400px] md:h-[400px] lg:w-[500px] lg:h-[500px] rounded-3xl transform overflow-hidden shadow-lg shadow-sky-300 border-2 border-sky-300"
+          class="w-[300px] h-[300px] md:w-[400px] md:h-[400px] lg:w-[500px] lg:h-[500px] rounded-3xl transform overflow-hidden shadow-lg shadow-black dark:shadow-sky-300 border-2 border-black dark:border-sky-300 transition-all duration-300 relative"
         >
           <img
             src="/src/assets/images/avatar.jpeg"
             alt="background"
             class="w-full h-full object-cover"
           />
+          <!-- Dark overlay for light mode -->
+          <div
+            class="absolute inset-0 bg-black/40 dark:bg-transparent transition-all duration-300"
+          ></div>
         </div>
       </Motion>
 
       <div class="relative w-full flex items-center justify-center">
         <h1
-          class="font-bebas text-[80px] md:text-[120px] lg:text-[180px] leading-[0.85] text-white font-bold text-left"
+          class="font-bebas text-[80px] md:text-[120px] lg:text-[180px] leading-[0.85] text-black dark:text-white font-bold text-left"
         >
           <Motion
             :initial="{ x: -500, opacity: 0 }"
@@ -111,7 +117,9 @@ const socialLinks = SOCIAL_LINKS.map((link) => ({
           damping: 20,
         }"
       >
-        <h2 class="text-white font-bold uppercase text-2xl md:text-5xl font-bebas tracking-wide">
+        <h2
+          class="text-black font-bold uppercase dark:text-white text-2xl md:text-5xl font-bebas tracking-wide"
+        >
           Dwi Cahyo Nugroho
         </h2>
       </Motion>
@@ -134,12 +142,12 @@ const socialLinks = SOCIAL_LINKS.map((link) => ({
             :href="social.url"
             target="_blank"
             rel="noopener noreferrer"
-            class="w-12 h-12 rounded-full border-2 border-white/30 flex items-center justify-center transition-all duration-300 hover:border-sky-400 hover:bg-sky-400/20 hover:scale-110 group"
+            class="w-12 h-12 rounded-full border-2 border-black dark:border-white/30 flex items-center justify-center transition-all duration-300 dark:hover:border-sky-400 dark:hover:bg-sky-400/20 hover:scale-110 group"
           >
             <component
               :is="social.icon"
               :size="24"
-              class="text-white/70 group-hover:text-sky-400 transition-colors duration-300"
+              class="text-black dark:text-white/70 group-hover:text-black dark:group-hover:text-sky-400 transition-colors duration-300"
             />
           </a>
         </Motion>
