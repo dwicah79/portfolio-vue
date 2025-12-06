@@ -56,7 +56,7 @@ const socialLinksWithIcons = SOCIAL_LINKS.map((link) => ({
   >
     <aside
       v-if="isSidebarOpen"
-      class="fixed top-0 right-0 w-full sm:w-4/5 md:w-3/5 lg:w-1/2 xl:w-2/5 h-screen bg-linear-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-black dark:to-slate-900 z-40 shadow-2xl overflow-y-auto transition-colors duration-300"
+      class="fixed top-0 right-0 w-full sm:w-4/5 md:w-3/5 lg:w-1/2 xl:w-2/5 h-screen bg-linear-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-black dark:to-slate-900 z-40 shadow-2xl overflow-y-auto transition-colors duration-300 overflow-hidden"
       role="dialog"
       aria-modal="true"
     >
