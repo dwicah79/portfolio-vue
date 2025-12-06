@@ -35,12 +35,12 @@ const socialLinksWithIcons = SOCIAL_LINKS.map((link) => ({
   <Motion class="fixed top-8 right-8 z-30" v-bind="ANIMATION_CONFIG.hamburger">
     <button
       @click="toggleSidebar"
-      class="w-14 h-14 rounded-full border-2 border-white/30 flex items-center justify-center transition-all duration-300 hover:border-white hover:cursor-pointer hover:bg-white/10 hover:scale-110 group"
+      class="w-14 h-14 rounded-full border-2 border-white/30 dark:border-white/30 bg-white/5 dark:bg-transparent flex items-center justify-center transition-all duration-300 hover:border-white dark:hover:border-white hover:cursor-pointer hover:bg-white/10 dark:hover:bg-white/10 hover:scale-110 group"
       aria-label="Toggle menu"
     >
       <Menu
         :size="28"
-        class="text-white/70 group-hover:text-white transition-colors duration-300"
+        class="text-slate-700 dark:text-white/70 group-hover:text-slate-900 dark:group-hover:text-white transition-colors duration-300"
       />
     </button>
   </Motion>
@@ -56,19 +56,19 @@ const socialLinksWithIcons = SOCIAL_LINKS.map((link) => ({
   >
     <aside
       v-if="isSidebarOpen"
-      class="fixed top-0 right-0 w-full sm:w-4/5 md:w-3/5 lg:w-1/2 xl:w-2/5 h-screen bg-linear-to-br from-slate-900 via-black to-slate-900 z-40 shadow-2xl overflow-y-auto"
+      class="fixed top-0 right-0 w-full sm:w-4/5 md:w-3/5 lg:w-1/2 xl:w-2/5 h-screen bg-linear-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-black dark:to-slate-900 z-40 shadow-2xl overflow-y-auto transition-colors duration-300"
       role="dialog"
       aria-modal="true"
     >
       <!-- Close Button -->
       <button
         @click="toggleSidebar"
-        class="absolute top-6 right-6 md:top-8 md:right-8 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center transition-all duration-300 hover:bg-white/20 hover:scale-110 hover:rotate-90 group z-50"
+        class="absolute top-6 right-6 md:top-8 md:right-8 w-10 h-10 md:w-12 md:h-12 rounded-full bg-slate-200/80 dark:bg-white/10 backdrop-blur-sm border border-slate-300 dark:border-white/20 flex items-center justify-center transition-all duration-300 hover:bg-slate-300 dark:hover:bg-white/20 hover:scale-110 hover:rotate-90 group z-50"
         aria-label="Close menu"
       >
         <X
           :size="20"
-          class="md:w-6 md:h-6 text-white/70 group-hover:text-white group-hover:cursor-pointer transition-colors duration-300"
+          class="md:w-6 md:h-6 text-slate-600 dark:text-white/70 group-hover:text-slate-900 dark:group-hover:text-white group-hover:cursor-pointer transition-colors duration-300"
         />
       </button>
 
@@ -77,12 +77,12 @@ const socialLinksWithIcons = SOCIAL_LINKS.map((link) => ({
       >
         <div class="mb-8 md:mb-16">
           <h2
-            class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-3 md:mb-4"
+            class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-slate-900 dark:text-white mb-3 md:mb-4 transition-colors duration-300"
           >
             {{ t('nav.title').value }}
           </h2>
           <div
-            class="w-32 sm:w-40 md:w-52 h-0.5 md:h-1 bg-linear-to-r from-gray-400 to-gray-300"
+            class="w-32 sm:w-40 md:w-52 h-0.5 md:h-1 bg-linear-to-r from-slate-400 to-slate-300 dark:from-gray-400 dark:to-gray-300 transition-colors duration-300"
           ></div>
         </div>
 
@@ -101,30 +101,32 @@ const socialLinksWithIcons = SOCIAL_LINKS.map((link) => ({
             <a
               :href="item.link"
               @click="toggleSidebar"
-              class="group block relative overflow-hidden rounded-lg md:rounded-xl p-3 sm:p-4 md:p-5 transition-all duration-300"
+              class="group block relative overflow-hidden rounded-lg md:rounded-xl p-3 sm:p-4 md:p-5 transition-all duration-300 hover:bg-slate-100 dark:hover:bg-white/5"
             >
               <div class="flex items-center justify-between">
                 <span
-                  class="text-2xl sm:text-3xl md:text-4xl font-bold text-white/60 group-hover:text-white transition-colors duration-300"
+                  class="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-500 dark:text-white/60 group-hover:text-slate-900 dark:group-hover:text-white transition-colors duration-300"
                 >
                   {{ item.name }}
                 </span>
                 <span
-                  class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white/5 group-hover:text-white transition-all duration-300 group-hover:translate-x-2"
+                  class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-slate-200 dark:text-white/5 group-hover:text-slate-400 dark:group-hover:text-white transition-all duration-300 group-hover:translate-x-2"
                 >
                   {{ String(index + 1).padStart(2, '0') }}
                 </span>
               </div>
               <div
-                class="absolute bottom-0 left-0 h-0.5 w-0 bg-white transition-all duration-300 group-hover:w-full"
+                class="absolute bottom-0 left-0 h-0.5 w-0 bg-slate-900 dark:bg-white transition-all duration-300 group-hover:w-full"
               ></div>
             </a>
           </Motion>
         </nav>
 
         <!-- Social Links -->
-        <div class="mt-8 md:mt-16 pt-6 md:pt-8 border-t border-white/10">
-          <p class="text-white/40 text-xs md:text-sm mb-3 md:mb-4 uppercase tracking-wider">
+        <div class="mt-8 md:mt-16 pt-6 md:pt-8 border-t border-slate-300 dark:border-white/10">
+          <p
+            class="text-slate-500 dark:text-white/40 text-xs md:text-sm mb-3 md:mb-4 uppercase tracking-wider transition-colors duration-300"
+          >
             {{ t('nav.followMe').value }}
           </p>
           <div class="flex gap-3 md:gap-4">
@@ -134,48 +136,48 @@ const socialLinksWithIcons = SOCIAL_LINKS.map((link) => ({
               :href="social.url"
               target="_blank"
               rel="noopener noreferrer"
-              class="w-9 h-9 md:w-10 md:h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center transition-all duration-300 hover:bg-sky-400/20 hover:border-sky-400 hover:scale-110"
+              class="w-9 h-9 md:w-10 md:h-10 rounded-full bg-slate-200 dark:bg-white/5 border border-slate-300 dark:border-white/10 flex items-center justify-center transition-all duration-300 hover:bg-sky-400/20 hover:border-sky-400 hover:scale-110"
               :aria-label="`Visit ${social.name}`"
             >
               <component
                 :is="social.icon"
                 :size="16"
-                class="md:w-[18px] md:h-[18px] text-white/50 hover:text-sky-400 transition-colors duration-300"
+                class="md:w-[18px] md:h-[18px] text-slate-600 dark:text-white/50 hover:text-sky-400 transition-colors duration-300"
               />
             </a>
           </div>
         </div>
 
         <!-- Theme & Language Controls -->
-        <div class="mt-6 md:mt-6 pt-6 md:pt-6 border-t border-white/10">
+        <div class="mt-6 md:mt-6 pt-6 md:pt-6 border-t border-slate-300 dark:border-white/10">
           <div class="flex gap-3 md:gap-4">
             <!-- Theme Toggle -->
             <button
               @click="toggleTheme"
-              class="w-9 h-9 md:w-14 md:h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center transition-all duration-300 hover:bg-sky-400/20 hover:border-sky-400 hover:scale-110"
+              class="w-9 h-9 md:w-14 md:h-14 rounded-full bg-slate-200 dark:bg-white/5 border border-slate-300 dark:border-white/10 flex items-center justify-center transition-all duration-300 hover:bg-sky-400/20 hover:border-sky-400 hover:scale-110"
               :aria-label="`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`"
             >
               <Moon
                 v-if="theme === 'light'"
                 :size="16"
-                class="md:w-[18px] md:h-[18px] text-white/50 hover:text-sky-400 transition-colors duration-300"
+                class="md:w-[18px] md:h-[18px] text-slate-600 dark:text-white/50 hover:text-sky-400 transition-colors duration-300"
               />
               <Sun
                 v-else
                 :size="16"
-                class="md:w-[18px] md:h-[18px] text-white/50 hover:text-sky-400 transition-colors duration-300"
+                class="md:w-[18px] md:h-[18px] text-slate-600 dark:text-white/50 hover:text-sky-400 transition-colors duration-300"
               />
             </button>
 
             <!-- Language Toggle -->
             <button
               @click="toggleLanguage"
-              class="w-9 h-9 md:w-14 md:h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center transition-all duration-300 hover:bg-sky-400/20 hover:border-sky-400 hover:cursor-pointer hover:scale-110 relative"
+              class="w-9 h-9 md:w-14 md:h-14 rounded-full bg-slate-200 dark:bg-white/5 border border-slate-300 dark:border-white/10 flex items-center justify-center transition-all duration-300 hover:bg-sky-400/20 hover:border-sky-400 hover:cursor-pointer hover:scale-110 relative"
               :aria-label="`Switch to ${locale === 'id' ? 'English' : 'Indonesian'}`"
             >
               <Languages
                 :size="16"
-                class="md:w-[18px] md:h-[18px] text-white/50 hover:text-sky-400 transition-colors duration-300"
+                class="md:w-[18px] md:h-[18px] text-slate-600 dark:text-white/50 hover:text-sky-400 transition-colors duration-300"
               />
               <span
                 class="absolute -bottom-1 -right-1 text-[8px] md:text-[9px] font-bold bg-sky-500 text-white rounded-full w-4 h-4 md:w-5 md:h-5 flex items-center justify-center uppercase"
@@ -201,7 +203,7 @@ const socialLinksWithIcons = SOCIAL_LINKS.map((link) => ({
     <div
       v-if="isSidebarOpen"
       @click="toggleSidebar"
-      class="fixed inset-0 bg-black/70 backdrop-blur-sm z-30"
+      class="fixed inset-0 bg-slate-900/50 dark:bg-black/70 backdrop-blur-sm z-30 transition-colors duration-300"
     ></div>
   </Transition>
 </template>
