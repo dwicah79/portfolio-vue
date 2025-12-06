@@ -1,21 +1,24 @@
 <script setup>
-import { ref } from 'vue'
+import { computed } from 'vue'
 import { Github, Instagram, Linkedin } from 'lucide-vue-next'
 import NavBar from './NavBar.vue'
+import { useMousePosition } from '@/composables/useMousePosition'
+import { useLanguage } from '@/composables/useLanguage'
+import { SOCIAL_LINKS } from '@/constants'
+import { getTranslation } from '@/constants/translations'
 
-const mouseX = ref(0)
-const mouseY = ref(0)
+// Composables
+const { mouseX, mouseY, handleMove } = useMousePosition()
+const { locale } = useLanguage()
 
-const handleMove = (e) => {
-  mouseX.value = e.clientX
-  mouseY.value = e.clientY
-}
+// Translation helper
+const t = (key) => computed(() => getTranslation(locale.value, key))
 
-const socialLinks = [
-  { icon: Github, url: 'https://github.com/dwicah79', delay: 0 },
-  { icon: Instagram, url: 'https://instagram.com/dwicah79', delay: 0.2 },
-  { icon: Linkedin, url: 'https://linkedin.com/in/dwicah79', delay: 0.4 },
-]
+// Map social icons
+const socialLinks = SOCIAL_LINKS.map((link) => ({
+  ...link,
+  icon: link.name === 'Github' ? Github : link.name === 'Instagram' ? Instagram : Linkedin,
+}))
 </script>
 
 <template>
@@ -73,7 +76,7 @@ const socialLinks = [
               damping: 20,
             }"
           >
-            <span class="block">Fullstack</span>
+            <span class="block">{{ t('hero.fullstack').value }}</span>
           </Motion>
 
           <br />
@@ -90,7 +93,7 @@ const socialLinks = [
               damping: 20,
             }"
           >
-            <span>DEVELOPER</span>
+            <span>{{ t('hero.developer').value }}</span>
           </Motion>
         </h1>
       </div>
