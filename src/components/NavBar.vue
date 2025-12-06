@@ -82,7 +82,7 @@ const socialLinksWithIcons = SOCIAL_LINKS.map((link) => ({
             {{ t('nav.title').value }}
           </h2>
           <div
-            class="w-32 sm:w-40 md:w-52 h-0.5 md:h-1 bg-linear-to-r from-slate-400 to-slate-300 dark:from-gray-400 dark:to-gray-300 transition-colors duration-300"
+            class="w-32 sm:w-40 md:w-52 h-0.5 bg-black dark:bg-linear-to-r from-black to-slate-300 dark:from-gray-400 dark:to-gray-300 transition-colors duration-300"
           ></div>
         </div>
 
@@ -101,7 +101,7 @@ const socialLinksWithIcons = SOCIAL_LINKS.map((link) => ({
             <a
               :href="item.link"
               @click="toggleSidebar"
-              class="group block relative overflow-hidden rounded-lg md:rounded-xl p-3 sm:p-4 md:p-5 transition-all duration-300 hover:bg-slate-100 dark:hover:bg-white/5"
+              class="group block relative overflow-hidden rounded-lg md:rounded-xl p-3 sm:p-4 md:p-5 transition-all duration-300 dark:hover:bg-white/5"
             >
               <div class="flex items-center justify-between">
                 <span
@@ -110,7 +110,7 @@ const socialLinksWithIcons = SOCIAL_LINKS.map((link) => ({
                   {{ item.name }}
                 </span>
                 <span
-                  class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-slate-200 dark:text-white/5 group-hover:text-slate-400 dark:group-hover:text-white transition-all duration-300 group-hover:translate-x-2"
+                  class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-slate-200 dark:text-white/5 group-hover:text-black dark:group-hover:text-white transition-all duration-300 group-hover:translate-x-2"
                 >
                   {{ String(index + 1).padStart(2, '0') }}
                 </span>
@@ -136,13 +136,13 @@ const socialLinksWithIcons = SOCIAL_LINKS.map((link) => ({
               :href="social.url"
               target="_blank"
               rel="noopener noreferrer"
-              class="w-9 h-9 md:w-10 md:h-10 rounded-full bg-slate-200 dark:bg-white/5 border border-slate-300 dark:border-white/10 flex items-center justify-center transition-all duration-300 hover:bg-sky-400/20 hover:border-sky-400 hover:scale-110"
+              class="w-9 h-9 md:w-10 md:h-10 rounded-full bg-slate-200 dark:bg-white/5 border border-slate-300 dark:border-white/10 flex items-center justify-center transition-all duration-300 dark:hover:bg-sky-400/20 dark:hover:border-sky-400 hover:scale-110"
               :aria-label="`Visit ${social.name}`"
             >
               <component
                 :is="social.icon"
                 :size="16"
-                class="md:w-[18px] md:h-[18px] text-slate-600 dark:text-white/50 hover:text-sky-400 transition-colors duration-300"
+                class="md:w-[18px] md:h-[18px] text-slate-600 dark:text-white/50 dark:hover:text-sky-400 transition-colors duration-300"
               />
             </a>
           </div>
@@ -154,7 +154,7 @@ const socialLinksWithIcons = SOCIAL_LINKS.map((link) => ({
             <!-- Theme Toggle -->
             <button
               @click="toggleTheme"
-              class="w-9 h-9 md:w-14 md:h-14 rounded-full bg-slate-200 dark:bg-white/5 border border-slate-300 dark:border-white/10 flex items-center justify-center transition-all duration-300 hover:bg-sky-400/20 hover:border-sky-400 hover:scale-110"
+              class="w-9 h-9 md:w-14 md:h-14 rounded-full bg-slate-200 dark:bg-white/5 border border-slate-300 dark:border-white/10 flex items-center justify-center transition-all duration-300 hover:cursor-pointer dark:hover:bg-sky-400/20 dark:hover:border-sky-400 hover:scale-110"
               :aria-label="`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`"
             >
               <Moon
@@ -172,12 +172,12 @@ const socialLinksWithIcons = SOCIAL_LINKS.map((link) => ({
             <!-- Language Toggle -->
             <button
               @click="toggleLanguage"
-              class="w-9 h-9 md:w-14 md:h-14 rounded-full bg-slate-200 dark:bg-white/5 border border-slate-300 dark:border-white/10 flex items-center justify-center transition-all duration-300 hover:bg-sky-400/20 hover:border-sky-400 hover:cursor-pointer hover:scale-110 relative"
+              class="w-9 h-9 md:w-14 md:h-14 rounded-full bg-slate-200 dark:bg-white/5 border border-slate-300 dark:border-white/10 flex items-center justify-center transition-all duration-300 dark:hover:bg-sky-400/20 dark:hover:border-sky-400 hover:cursor-pointer hover:scale-110 relative"
               :aria-label="`Switch to ${locale === 'id' ? 'English' : 'Indonesian'}`"
             >
               <Languages
                 :size="16"
-                class="md:w-[18px] md:h-[18px] text-slate-600 dark:text-white/50 hover:text-sky-400 transition-colors duration-300"
+                class="md:w-[18px] md:h-[18px] text-slate-600 dark:text-white/50 dark:hover:text-sky-400 transition-colors duration-300"
               />
               <span
                 class="absolute -bottom-1 -right-1 text-[8px] md:text-[9px] font-bold bg-sky-500 text-white rounded-full w-4 h-4 md:w-5 md:h-5 flex items-center justify-center uppercase"
