@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { Github, Instagram, Linkedin } from 'lucide-vue-next'
 import NavBar from './NavBar.vue'
 import { useLanguage } from '@/composables/useLanguage'
@@ -22,11 +22,53 @@ const socialLinks = SOCIAL_LINKS.map((link) => ({
   ...link,
   icon: link.name === 'Github' ? Github : link.name === 'Instagram' ? Instagram : Linkedin,
 }))
+
+// Scroll animation states
+const heroVisible = ref(true)
+const avatarVisible = ref(true)
+const titleVisible = ref(true)
+const nameVisible = ref(true)
+const socialsVisible = ref(true)
+const hasLoaded = ref(false)
+
+onMounted(() => {
+  // Set hasLoaded setelah animasi initial selesai
+  setTimeout(() => {
+    hasLoaded.value = true
+  }, 2500)
+
+  // Setup Intersection Observer untuk animasi scroll
+  const options = {
+    threshold: 0.3,
+    rootMargin: '0px',
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.target.classList.contains('hero-section')) {
+        // Hanya apply animasi scroll setelah initial load selesai
+        if (hasLoaded.value) {
+          heroVisible.value = entry.isIntersecting
+          avatarVisible.value = entry.isIntersecting
+          titleVisible.value = entry.isIntersecting
+          nameVisible.value = entry.isIntersecting
+          socialsVisible.value = entry.isIntersecting
+        }
+      }
+    })
+  }, options)
+
+  // Observe elements setelah DOM ready
+  setTimeout(() => {
+    const heroEl = document.querySelector('.hero-section')
+    if (heroEl) observer.observe(heroEl)
+  }, 100)
+})
 </script>
 
 <template>
   <header
-    class="w-screen h-screen bg-white dark:bg-black flex items-center justify-center relative overflow-hidden"
+    class="hero-section w-screen h-screen bg-white dark:bg-black flex items-center justify-center relative overflow-hidden"
   >
     <NavBar />
 
@@ -34,14 +76,29 @@ const socialLinks = SOCIAL_LINKS.map((link) => ({
       <Motion
         class="absolute inset-0 flex items-center justify-center"
         :initial="{ y: -500, opacity: 0, rotate: 12 }"
-        :animate="{ y: 0, opacity: imageOpacity, rotate: 12 }"
-        :transition="{
-          duration: 1,
-          delay: 0.5,
-          type: 'spring',
-          stiffness: 80,
-          damping: 15,
-        }"
+        :animate="
+          !hasLoaded
+            ? { y: 0, opacity: imageOpacity, rotate: 12, scale: 1 }
+            : avatarVisible
+              ? { y: 0, opacity: imageOpacity, rotate: 12, scale: 1 }
+              : { y: -200, opacity: 0, rotate: -45, scale: 0.5 }
+        "
+        :transition="
+          !hasLoaded
+            ? {
+                duration: 1,
+                delay: 0.5,
+                type: 'spring',
+                stiffness: 80,
+                damping: 15,
+              }
+            : {
+                duration: 1.2,
+                type: 'spring',
+                stiffness: 60,
+                damping: 20,
+              }
+        "
       >
         <div
           class="w-[300px] h-[300px] md:w-[400px] md:h-[400px] lg:w-[500px] lg:h-[500px] rounded-3xl transform overflow-hidden shadow-lg shadow-black dark:shadow-sky-300 border-2 border-black dark:border-sky-300 transition-all duration-300 relative"
@@ -64,14 +121,29 @@ const socialLinks = SOCIAL_LINKS.map((link) => ({
         >
           <Motion
             :initial="{ x: -500, opacity: 0 }"
-            :animate="{ x: 0, opacity: 1 }"
-            :transition="{
-              duration: 0.8,
-              delay: 0,
-              type: 'spring',
-              stiffness: 100,
-              damping: 20,
-            }"
+            :animate="
+              !hasLoaded
+                ? { x: 0, opacity: 1, scale: 1, rotateY: 0 }
+                : titleVisible
+                  ? { x: 0, opacity: 1, scale: 1, rotateY: 0 }
+                  : { x: -300, opacity: 0, scale: 0.7, rotateY: -90 }
+            "
+            :transition="
+              !hasLoaded
+                ? {
+                    duration: 0.8,
+                    delay: 0,
+                    type: 'spring',
+                    stiffness: 100,
+                    damping: 20,
+                  }
+                : {
+                    duration: 1,
+                    type: 'spring',
+                    stiffness: 70,
+                    damping: 20,
+                  }
+            "
           >
             <span class="block">{{ t('hero.fullstack').value }}</span>
           </Motion>
@@ -81,14 +153,30 @@ const socialLinks = SOCIAL_LINKS.map((link) => ({
           <Motion
             class="inline-block ml-[1em] md:ml-[3em] lg:ml-[5em]"
             :initial="{ x: 500, opacity: 0 }"
-            :animate="{ x: 0, opacity: 1 }"
-            :transition="{
-              duration: 0.8,
-              delay: 1.2,
-              type: 'spring',
-              stiffness: 100,
-              damping: 20,
-            }"
+            :animate="
+              !hasLoaded
+                ? { x: 0, opacity: 1, scale: 1, rotateY: 0 }
+                : titleVisible
+                  ? { x: 0, opacity: 1, scale: 1, rotateY: 0 }
+                  : { x: 300, opacity: 0, scale: 0.7, rotateY: 90 }
+            "
+            :transition="
+              !hasLoaded
+                ? {
+                    duration: 0.8,
+                    delay: 1.2,
+                    type: 'spring',
+                    stiffness: 100,
+                    damping: 20,
+                  }
+                : {
+                    duration: 1,
+                    delay: 0.2,
+                    type: 'spring',
+                    stiffness: 70,
+                    damping: 20,
+                  }
+            "
           >
             <span>{{ t('hero.developer').value }}</span>
           </Motion>
@@ -99,14 +187,29 @@ const socialLinks = SOCIAL_LINKS.map((link) => ({
     <div class="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-6">
       <Motion
         :initial="{ y: 100, opacity: 0 }"
-        :animate="{ y: 0, opacity: 1 }"
-        :transition="{
-          duration: 0.8,
-          delay: 1.5,
-          type: 'spring',
-          stiffness: 100,
-          damping: 20,
-        }"
+        :animate="
+          !hasLoaded
+            ? { y: 0, opacity: 1, scale: 1 }
+            : nameVisible
+              ? { y: 0, opacity: 1, scale: 1 }
+              : { y: 100, opacity: 0, scale: 0.5 }
+        "
+        :transition="
+          !hasLoaded
+            ? {
+                duration: 0.8,
+                delay: 1.5,
+                type: 'spring',
+                stiffness: 100,
+                damping: 20,
+              }
+            : {
+                duration: 1,
+                type: 'spring',
+                stiffness: 70,
+                damping: 20,
+              }
+        "
       >
         <h2
           class="text-black font-bold uppercase dark:text-white text-2xl md:text-5xl font-bebas tracking-wide"
@@ -120,14 +223,30 @@ const socialLinks = SOCIAL_LINKS.map((link) => ({
           v-for="(social, index) in socialLinks"
           :key="index"
           :initial="{ scale: 0, opacity: 0 }"
-          :animate="{ scale: 1, opacity: 1 }"
-          :transition="{
-            duration: 0.5,
-            delay: 1.8 + social.delay,
-            type: 'spring',
-            stiffness: 200,
-            damping: 15,
-          }"
+          :animate="
+            !hasLoaded
+              ? { scale: 1, opacity: 1, rotate: 0 }
+              : socialsVisible
+                ? { scale: 1, opacity: 1, rotate: 0 }
+                : { scale: 0, opacity: 0, rotate: 180 }
+          "
+          :transition="
+            !hasLoaded
+              ? {
+                  duration: 0.5,
+                  delay: 1.8 + social.delay,
+                  type: 'spring',
+                  stiffness: 200,
+                  damping: 15,
+                }
+              : {
+                  duration: 0.8,
+                  delay: index * 0.1,
+                  type: 'spring',
+                  stiffness: 150,
+                  damping: 15,
+                }
+          "
         >
           <a
             :href="social.url"
