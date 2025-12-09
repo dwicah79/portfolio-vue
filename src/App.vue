@@ -24,8 +24,8 @@ const { mouseX, mouseY, handleMove } = useMousePosition()
 
     <HeroComponent />
     <AboutSection />
-    <GithubActivity />
     <Experience />
+    <GithubActivity />
   </div>
 </template>
 
