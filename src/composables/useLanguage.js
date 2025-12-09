@@ -1,8 +1,18 @@
 import { ref, watch } from 'vue'
 
-export function useLanguage() {
-  const locale = ref(localStorage.getItem('locale') || 'id')
+// Global shared state (singleton pattern)
+const locale = ref(localStorage.getItem('locale') || 'id')
 
+// Watch untuk update localStorage
+watch(
+  locale,
+  (newLocale) => {
+    localStorage.setItem('locale', newLocale)
+  },
+  { immediate: true },
+)
+
+export function useLanguage() {
   const toggleLanguage = () => {
     locale.value = locale.value === 'id' ? 'en' : 'id'
   }
@@ -10,15 +20,6 @@ export function useLanguage() {
   const setLanguage = (lang) => {
     locale.value = lang
   }
-
-  // Watch untuk update localStorage
-  watch(
-    locale,
-    (newLocale) => {
-      localStorage.setItem('locale', newLocale)
-    },
-    { immediate: true },
-  )
 
   return {
     locale,
