@@ -2,6 +2,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useLanguage } from '@/composables/useLanguage'
 import { getTranslation } from '@/constants/translations'
+import pdfCv from '@/assets/images/cv.pdf'
 
 // Composables
 const { locale } = useLanguage()
@@ -397,6 +398,35 @@ const techLogos = [
             >
               {{ getTranslation(locale, 'about.cta') }}
             </p>
+          </Motion>
+
+          <!-- Download CV Button -->
+          <Motion
+            :initial="{ scale: 0, opacity: 0 }"
+            :animate="text4Visible ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }"
+            :transition="{ duration: 0.5, delay: 0.8, type: 'spring', stiffness: 150 }"
+            class="pt-8"
+          >
+            <a
+              :href="pdfCv"
+              download="CV_Dwi_Cahyo_Nugroho.pdf"
+              class="inline-flex items-center gap-3 px-8 py-2 bg-black dark:bg-white text-white dark:text-black rounded-full font-semibold text-lg hover:scale-105 hover:shadow-2xl hover:shadow-indigo-500/50 transition-all duration-300 group"
+            >
+              <svg
+                class="w-6 h-6 group-hover:animate-bounce"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
+              </svg>
+              {{ locale === 'id' ? 'Download CV' : 'Download CV' }}
+            </a>
           </Motion>
         </div>
       </div>
