@@ -402,7 +402,7 @@ const techLogos = [
       </div>
     </div>
   </section>
-  <div class="p-20 bg-white"></div>
+  <!-- <div class="p-20 bg-white"></div> -->
 </template>
 
 <style scoped>
