@@ -1,86 +1,77 @@
 <script setup>
-import { computed, ref, onMounted } from 'vue'
-import { useLanguage } from '@/composables/useLanguage'
-import { getTranslation } from '@/constants/translations'
+import { ref, onMounted, onUnmounted } from 'vue'
 
-const { locale } = useLanguage()
+// Scroll progress (manual implementation)
+const scrollProgress = ref(0)
 
-// Translation helper
-const t = (key) => computed(() => getTranslation(locale.value, key))
+const updateScrollProgress = () => {
+  const windowHeight = window.innerHeight
+  const documentHeight = document.documentElement.scrollHeight
+  const scrollTop = window.scrollY || document.documentElement.scrollTop
 
-// Scroll animation states
-const headerVisible = ref(false)
-const bioVisible = ref(false)
-const skillsVisible = ref(false)
-const experienceVisible = ref(false)
-
-// Parallax effect
-const scrollY = ref(0)
+  // Calculate scroll progress (0 to 1)
+  const scrollable = documentHeight - windowHeight
+  scrollProgress.value = scrollable > 0 ? scrollTop / scrollable : 0
+}
 
 onMounted(() => {
-  const handleScroll = () => {
-    scrollY.value = window.scrollY
-  }
-  window.addEventListener('scroll', handleScroll)
-
-  // Intersection Observer for scroll animations
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px',
-  }
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const target = entry.target
-        if (target.classList.contains('header-section')) headerVisible.value = true
-        if (target.classList.contains('bio-section')) bioVisible.value = true
-        if (target.classList.contains('skills-section')) skillsVisible.value = true
-        if (target.classList.contains('experience-section')) experienceVisible.value = true
-      }
-    })
-  }, observerOptions)
-
-  // Observe elements
-  document.querySelectorAll('.animate-on-scroll').forEach((el) => observer.observe(el))
-
-  return () => {
-    window.removeEventListener('scroll', handleScroll)
-    observer.disconnect()
-  }
+  window.addEventListener('scroll', updateScrollProgress, { passive: true })
+  updateScrollProgress()
 })
 
-// Skills data
-const skills = [
-  { name: 'Vue.js', level: 90, category: 'Frontend' },
-  { name: 'React', level: 85, category: 'Frontend' },
-  { name: 'TypeScript', level: 88, category: 'Language' },
-  { name: 'Node.js', level: 85, category: 'Backend' },
-  { name: 'PHP', level: 80, category: 'Backend' },
-  { name: 'MySQL', level: 82, category: 'Database' },
-  { name: 'MongoDB', level: 78, category: 'Database' },
-  { name: 'Docker', level: 75, category: 'DevOps' },
-]
+onUnmounted(() => {
+  window.removeEventListener('scroll', updateScrollProgress)
+})
 
-// Experience data
-const experiences = [
+// Tech stack logos with positions (circular arrangement)
+const techLogos = [
   {
-    year: '2023 - Present',
-    title: 'Senior Full Stack Developer',
-    company: 'Tech Company',
-    description: 'Leading development of modern web applications using Vue.js and Node.js',
+    name: 'JavaScript',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg',
+    positionMobile: { top: '-25%', left: '50%', transform: 'translate(-50%, -50%)' },
+    positionDesktop: { top: '-30%', left: '40%', transform: 'translate(-50%, -50%)' },
   },
   {
-    year: '2021 - 2023',
-    title: 'Full Stack Developer',
-    company: 'Startup Inc',
-    description: 'Built scalable web applications and RESTful APIs',
+    name: 'Vue.js',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg',
+    positionMobile: { top: '5%', right: '-10%', transform: 'translate(0, 0)' },
+    positionDesktop: { top: '0%', right: '-30%', transform: 'translate(0, 0)' },
   },
   {
-    year: '2019 - 2021',
-    title: 'Frontend Developer',
-    company: 'Digital Agency',
-    description: 'Created responsive and interactive user interfaces',
+    name: 'React',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
+    positionMobile: { top: '40%', right: '-15%', transform: 'translate(0, -50%)' },
+    positionDesktop: { top: '30%', right: '-35%', transform: 'translate(0, -50%)' },
+  },
+  {
+    name: 'Laravel',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg',
+    positionMobile: { bottom: '25%', right: '-10%', transform: 'translate(0, 0)' },
+    positionDesktop: { bottom: '17%', right: '-30%', transform: 'translate(0, 0)' },
+  },
+  {
+    name: 'PHP',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg',
+    positionMobile: { bottom: '-25%', left: '50%', transform: 'translate(-50%, 50%)' },
+    positionDesktop: { bottom: '-30%', left: '40%', transform: 'translate(-50%, 50%)' },
+  },
+  {
+    name: 'Nuxt',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nuxtjs/nuxtjs-original.svg',
+    positionMobile: { bottom: '25%', left: '-10%', transform: 'translate(0, 0)' },
+    positionDesktop: { bottom: '17%', left: '-35%', transform: 'translate(0, 0)' },
+  },
+  {
+    name: 'MySQL',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg',
+    positionMobile: { top: '40%', left: '-15%', transform: 'translate(0, -50%)' },
+    positionDesktop: { top: '30%', left: '-40%', transform: 'translate(0, -50%)' },
+  },
+  {
+    name: 'PostgreSQL',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg',
+    positionMobile: { top: '5%', left: '-10%', transform: 'translate(0, 0)' },
+    positionDesktop: { top: '0%', left: '-30%', transform: 'translate(0, 0)' },
   },
 ]
 </script>
@@ -88,162 +79,189 @@ const experiences = [
 <template>
   <section
     id="about"
-    class="min-h-screen w-full bg-white dark:bg-black py-20 px-6 md:px-12 lg:px-20 transition-colors duration-500 relative overflow-hidden"
+    class="min-h-screen w-full bg-white dark:bg-black py-32 px-6 transition-colors duration-500 overflow-hidden flex items-center"
   >
-    <div class="max-w-7xl mx-auto relative z-10">
-      <!-- Section Header -->
+    <div class="max-w-7xl mx-auto w-full">
+      <!-- Scroll Progress Indicator -->
+      <Motion
+        class="fixed top-0 left-0 right-0 h-1 bg-black dark:bg-white origin-left z-50"
+        :style="{
+          scaleX: scrollProgress,
+        }"
+      />
+
+      <!-- Section Title -->
       <Motion
         :initial="{ y: -50, opacity: 0 }"
         :animate="{ y: 0, opacity: 1 }"
-        :transition="{ duration: 0.8, delay: 0.2 }"
+        :transition="{ duration: 0.8, delay: 0.1 }"
       >
-        <div class="mb-16 text-center">
-          <h2 class="text-5xl md:text-7xl font-bebas font-bold text-black dark:text-white mb-4">
-            {{ t('about.title').value || 'About Me' }}
-          </h2>
-          <div
-            class="w-32 h-1 bg-black dark:bg-white mx-auto rounded-full transition-colors duration-300"
-          ></div>
-        </div>
+        <h2
+          class="text-6xl md:text-8xl font-bebas font-bold text-black dark:text-white mb-2 text-center"
+        >
+          WHO AM I?
+        </h2>
+        <div class="w-32 h-1 bg-black dark:bg-white mx-auto mb-16"></div>
       </Motion>
 
-      <!-- About Content Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
-        <!-- Left: Bio -->
-        <Motion
-          :initial="{ x: -100, opacity: 0 }"
-          :animate="{ x: 0, opacity: 1 }"
-          :transition="{ duration: 0.8, delay: 0.4 }"
-        >
-          <div class="space-y-6">
-            <h3 class="text-3xl md:text-4xl font-bold text-black dark:text-white font-bebas">
-              {{ t('about.subtitle').value || 'Full Stack Developer' }}
-            </h3>
-            <p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-              {{
-                t('about.bio1').value ||
-                'Passionate full stack developer with 5+ years of experience in building modern web applications. I love creating beautiful, functional, and user-friendly digital experiences.'
-              }}
-            </p>
-            <p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-              {{
-                t('about.bio2').value ||
-                'Specialized in Vue.js, React, Node.js, and modern web technologies. Always eager to learn new technologies and best practices to deliver high-quality solutions.'
-              }}
-            </p>
-
-            <!-- Stats -->
-            <div class="grid grid-cols-3 gap-6 pt-6">
-              <div class="text-center">
-                <div class="text-4xl font-bold text-sky-500 font-bebas">5+</div>
-                <div class="text-sm text-slate-600 dark:text-slate-400 mt-1">
-                  {{ t('about.yearsExp').value || 'Years Exp' }}
-                </div>
-              </div>
-              <div class="text-center">
-                <div class="text-4xl font-bold text-sky-500 font-bebas">50+</div>
-                <div class="text-sm text-slate-600 dark:text-slate-400 mt-1">
-                  {{ t('about.projects').value || 'Projects' }}
-                </div>
-              </div>
-              <div class="text-center">
-                <div class="text-4xl font-bold text-sky-500 font-bebas">20+</div>
-                <div class="text-sm text-slate-600 dark:text-slate-400 mt-1">
-                  {{ t('about.clients').value || 'Clients' }}
-                </div>
-              </div>
-            </div>
-          </div>
-        </Motion>
-
-        <!-- Right: Skills -->
-        <Motion
-          :initial="{ x: 100, opacity: 0 }"
-          :animate="{ x: 0, opacity: 1 }"
-          :transition="{ duration: 0.8, delay: 0.6 }"
-        >
-          <div class="space-y-6">
-            <h3 class="text-3xl md:text-4xl font-bold text-black dark:text-white font-bebas mb-6">
-              {{ t('about.skills').value || 'Skills' }}
-            </h3>
-
-            <div class="space-y-5">
-              <Motion
-                v-for="(skill, index) in skills"
-                :key="skill.name"
-                :initial="{ x: 50, opacity: 0 }"
-                :animate="{ x: 0, opacity: 1 }"
-                :transition="{ duration: 0.5, delay: 0.8 + index * 0.1 }"
-              >
-                <div>
-                  <div class="flex justify-between mb-2">
-                    <span class="text-sm font-semibold text-slate-700 dark:text-slate-300">
-                      {{ skill.name }}
-                    </span>
-                    <span class="text-sm text-slate-500 dark:text-slate-400">
-                      {{ skill.level }}%
-                    </span>
-                  </div>
-                  <div
-                    class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden"
-                  >
-                    <Motion
-                      class="h-full bg-linear-to-r from-sky-400 to-sky-600 rounded-full"
-                      :initial="{ width: '0%' }"
-                      :animate="{ width: skill.level + '%' }"
-                      :transition="{ duration: 1, delay: 1 + index * 0.1 }"
-                    />
-                  </div>
-                </div>
-              </Motion>
-            </div>
-          </div>
-        </Motion>
-      </div>
-
-      <!-- Experience Timeline -->
-      <div
-        class="animate-on-scroll experience-section transition-all duration-1000 delay-600"
-        :class="experienceVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'"
-      >
-        <h3
-          class="text-3xl md:text-4xl font-bold text-black dark:text-white font-bebas mb-10 text-center"
-        >
-          {{ t('about.experience').value || 'Experience' }}
-        </h3>
-
-        <div class="space-y-8">
-          <div
-            v-for="(exp, index) in experiences"
-            :key="index"
-            class="relative pl-8 md:pl-12 border-l-2 border-slate-300 dark:border-slate-700 hover:border-sky-400 dark:hover:border-sky-400 transition-all duration-700 group"
-            :class="
-              experienceVisible
-                ? 'opacity-100 translate-x-0'
-                : index % 2 === 0
-                  ? 'opacity-0 -translate-x-10'
-                  : 'opacity-0 translate-x-10'
-            "
-            :style="{ transitionDelay: `${800 + index * 200}ms` }"
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-20 items-center">
+        <!-- Left: Avatar with Tech Logos (3 columns) -->
+        <div class="lg:col-span-2 flex justify-center">
+          <Motion
+            class="relative w-fit"
+            :initial="{ scale: 0, opacity: 0 }"
+            :animate="{ scale: 1, opacity: 1 }"
+            :transition="{
+              duration: 0.8,
+              delay: 0.3,
+              type: 'spring',
+              stiffness: 100,
+              damping: 15,
+            }"
           >
-            <!-- Timeline dot -->
+            <!-- Avatar -->
             <div
-              class="absolute -left-2 top-0 w-4 h-4 bg-sky-400 rounded-full border-4 border-white dark:border-black group-hover:scale-125 transition-transform duration-300"
-            ></div>
-
-            <div
-              class="bg-slate-50 dark:bg-slate-900 p-6 rounded-lg hover:shadow-lg hover:shadow-sky-400/10 transition-all duration-300"
+              class="w-[280px] h-[280px] md:w-[380px] md:h-[380px] group rounded-full overflow-hidden border-[8px] border-slate-800 dark:border-white shadow-2xl relative z-10 bg-gradient-to-br from-slate-100 to-slate-300 dark:from-slate-800 dark:to-slate-900"
             >
-              <div class="text-sm text-sky-500 font-semibold mb-2">{{ exp.year }}</div>
-              <h4 class="text-xl font-bold text-black dark:text-white mb-1">
-                {{ exp.title }}
-              </h4>
-              <div class="text-slate-600 dark:text-slate-400 font-medium mb-3">
-                {{ exp.company }}
-              </div>
-              <p class="text-slate-600 dark:text-slate-300">{{ exp.description }}</p>
+              <img
+                src="/src/assets/images/avatar.jpeg"
+                alt="Dwi Cahyo Nugroho"
+                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300"
+              />
             </div>
-          </div>
+
+            <!-- Tech Logos floating around -->
+            <Motion
+              v-for="(tech, index) in techLogos"
+              :key="tech.name"
+              class="tech-logo absolute w-16 h-16 md:w-20 md:h-20 bg-white dark:bg-slate-800 rounded-full shadow-2xl flex items-center justify-center border-[3px] border-slate-300 dark:border-slate-600 hover:scale-125 transition-all duration-300 z-20 backdrop-blur-sm"
+              :style="{
+                '--mobile-top': tech.positionMobile.top,
+                '--mobile-bottom': tech.positionMobile.bottom,
+                '--mobile-left': tech.positionMobile.left,
+                '--mobile-right': tech.positionMobile.right,
+                '--mobile-transform': tech.positionMobile.transform,
+                '--desktop-top': tech.positionDesktop.top,
+                '--desktop-bottom': tech.positionDesktop.bottom,
+                '--desktop-left': tech.positionDesktop.left,
+                '--desktop-right': tech.positionDesktop.right,
+                '--desktop-transform': tech.positionDesktop.transform,
+              }"
+              :initial="{ scale: 0, opacity: 0, y: 0, x: 0, rotate: 0 }"
+              :animate="{
+                scale: 1,
+                opacity: 1,
+                y: [-30, 10, -40, 15, -30],
+                x: [20, -15, 25, -20, 20],
+                rotate: [0, 8, -8, 5, 0],
+              }"
+              :transition="{
+                scale: {
+                  duration: 0.6,
+                  delay: 0.5 + index * 0.1,
+                  type: 'spring',
+                  stiffness: 150,
+                  damping: 12,
+                },
+                opacity: {
+                  duration: 0.6,
+                  delay: 0.5 + index * 0.1,
+                },
+                y: {
+                  duration: 5,
+                  delay: 0.5 + index * 0.4,
+                  repeat: Infinity,
+                  repeatType: 'loop',
+                  ease: 'easeInOut',
+                },
+                x: {
+                  duration: 4.5,
+                  delay: 0.5 + index * 0.4,
+                  repeat: Infinity,
+                  repeatType: 'loop',
+                  ease: 'easeInOut',
+                },
+                rotate: {
+                  duration: 6,
+                  delay: 0.5 + index * 0.4,
+                  repeat: Infinity,
+                  repeatType: 'loop',
+                  ease: 'easeInOut',
+                },
+              }"
+            >
+              <img
+                :src="tech.icon"
+                :alt="tech.name"
+                class="w-10 h-10 md:w-12 md:h-12 object-contain"
+              />
+            </Motion>
+          </Motion>
+        </div>
+
+        <!-- Right: Content (3 columns) -->
+        <div class="lg:col-span-3 space-y-6 lg:pl-8">
+          <Motion
+            :initial="{ x: 100, opacity: 0 }"
+            :animate="{ x: 0, opacity: 1 }"
+            :transition="{ duration: 0.8, delay: 0.4 }"
+          >
+            <p
+              class="text-xl text-justify md:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed"
+            >
+              Hello! I'm
+              <span class="font-bold text-black dark:text-white text-2xl md:text-3xl"
+                >Dwi Cahyo Nugroho</span
+              >, a passionate
+              <span class="font-bold">Fullstack Developer</span>
+              for over 1 years. Specializing in building dynamic and intuitive user experiences with
+              <a href="#" class="hover:underline font-semibold underline">Vue.js</a>
+              and
+              <a href="#" class="hover:underline font-semibold underline">Laravel</a>.
+            </p>
+          </Motion>
+
+          <Motion
+            :initial="{ x: 100, opacity: 0 }"
+            :animate="{ x: 0, opacity: 1 }"
+            :transition="{ duration: 0.8, delay: 0.5 }"
+          >
+            <p
+              class="text-lg text-justify md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed"
+            >
+              As a self-taught developer, my journey has been fueled by an insatiable curiosity and
+              a commitment to continuous learning. I gained valuable experience in integrating
+              various backend technologies like
+              <span class="font-semibold">Laravel</span>, <span class="font-semibold">PHP</span>,
+              and <span class="font-semibold">MySQL</span>, as well as advanced technologies.
+            </p>
+          </Motion>
+
+          <Motion
+            :initial="{ x: 100, opacity: 0 }"
+            :animate="{ x: 0, opacity: 1 }"
+            :transition="{ duration: 0.8, delay: 0.6 }"
+          >
+            <p
+              class="text-lg text-justify md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed"
+            >
+              Beyond writing code, I'm passionate about sharing my knowledge and experiences in web
+              development on social media. I am always excited to explore new technologies, solve
+              problems creatively, and contribute to projects that have a real impact.
+            </p>
+          </Motion>
+
+          <Motion
+            :initial="{ x: 100, opacity: 0 }"
+            :animate="{ x: 0, opacity: 1 }"
+            :transition="{ duration: 0.8, delay: 0.7 }"
+          >
+            <p
+              class="text-xl md:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed font-medium"
+            >
+              I am open to new opportunities and collaborations! Feel free to reach out to me. 🚀
+            </p>
+          </Motion>
         </div>
       </div>
     </div>
@@ -255,5 +273,24 @@ const experiences = [
 
 .font-bebas {
   font-family: 'Bebas Neue', sans-serif;
+}
+
+/* Tech logo responsive positioning */
+.tech-logo {
+  top: var(--mobile-top);
+  bottom: var(--mobile-bottom);
+  left: var(--mobile-left);
+  right: var(--mobile-right);
+  transform: var(--mobile-transform);
+}
+
+@media (min-width: 768px) {
+  .tech-logo {
+    top: var(--desktop-top);
+    bottom: var(--desktop-bottom);
+    left: var(--desktop-left);
+    right: var(--desktop-right);
+    transform: var(--desktop-transform);
+  }
 }
 </style>
