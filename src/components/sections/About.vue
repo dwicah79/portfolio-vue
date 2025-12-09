@@ -1,5 +1,10 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useLanguage } from '@/composables/useLanguage'
+import { getTranslation } from '@/constants/translations'
+
+// Composables
+const { locale } = useLanguage()
 
 // Scroll progress (manual implementation)
 const scrollProgress = ref(0)
@@ -14,9 +19,65 @@ const updateScrollProgress = () => {
   scrollProgress.value = scrollable > 0 ? scrollTop / scrollable : 0
 }
 
+// Intersection Observer untuk scroll animations
+const titleVisible = ref(false)
+const avatarVisible = ref(false)
+const text1Visible = ref(false)
+const text2Visible = ref(false)
+const text3Visible = ref(false)
+const text4Visible = ref(false)
+
 onMounted(() => {
   window.addEventListener('scroll', updateScrollProgress, { passive: true })
   updateScrollProgress()
+
+  // Setup Intersection Observer untuk animasi scroll
+  const options = {
+    threshold: 0.2,
+    rootMargin: '0px 0px -100px 0px',
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const target = entry.target
+      // Toggle visibility based on intersection
+      if (target.classList.contains('title-section')) {
+        titleVisible.value = entry.isIntersecting
+      }
+      if (target.classList.contains('avatar-section')) {
+        avatarVisible.value = entry.isIntersecting
+      }
+      if (target.classList.contains('text-1')) {
+        text1Visible.value = entry.isIntersecting
+      }
+      if (target.classList.contains('text-2')) {
+        text2Visible.value = entry.isIntersecting
+      }
+      if (target.classList.contains('text-3')) {
+        text3Visible.value = entry.isIntersecting
+      }
+      if (target.classList.contains('text-4')) {
+        text4Visible.value = entry.isIntersecting
+      }
+    })
+  }, options)
+
+  // Observe elements setelah DOM ready
+  setTimeout(() => {
+    const titleEl = document.querySelector('.title-section')
+    const avatarEl = document.querySelector('.avatar-section')
+    const text1El = document.querySelector('.text-1')
+    const text2El = document.querySelector('.text-2')
+    const text3El = document.querySelector('.text-3')
+    const text4El = document.querySelector('.text-4')
+
+    if (titleEl) observer.observe(titleEl)
+    if (avatarEl) observer.observe(avatarEl)
+    if (text1El) observer.observe(text1El)
+    if (text2El) observer.observe(text2El)
+    if (text3El) observer.observe(text3El)
+    if (text4El) observer.observe(text4El)
+  }, 100)
 })
 
 onUnmounted(() => {
@@ -79,49 +140,115 @@ const techLogos = [
 <template>
   <section
     id="about"
-    class="min-h-screen w-full bg-white dark:bg-black py-32 px-6 transition-colors duration-500 overflow-hidden flex items-center"
+    class="min-h-screen w-full bg-white dark:bg-black py-32 px-6 transition-colors duration-500 overflow-hidden flex items-center relative"
   >
-    <div class="max-w-7xl mx-auto w-full">
-      <!-- Scroll Progress Indicator -->
+    <!-- Animated background blobs -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none hidden dark:block">
       <Motion
-        class="fixed top-0 left-0 right-0 h-1 bg-black dark:bg-white origin-left z-50"
+        class="absolute -top-40 -left-40 w-96 h-96 bg-sky-400/20 dark:bg-sky-400/10 rounded-full blur-3xl"
+        :animate="{
+          x: [0, 100, 0],
+          y: [0, 50, 0],
+          scale: [1, 1.2, 1],
+        }"
+        :transition="{
+          duration: 20,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }"
+      />
+      <Motion
+        class="absolute -bottom-40 -right-40 w-96 h-96 bg-purple-400/20 dark:bg-purple-400/10 rounded-full blur-3xl"
+        :animate="{
+          x: [0, -100, 0],
+          y: [0, -50, 0],
+          scale: [1, 1.3, 1],
+        }"
+        :transition="{
+          duration: 25,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }"
+      />
+      <Motion
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-400/20 dark:bg-blue-400/10 rounded-full blur-3xl"
+        :animate="{
+          scale: [1, 1.5, 1],
+          rotate: [0, 180, 360],
+        }"
+        :transition="{
+          duration: 30,
+          repeat: Infinity,
+          ease: 'linear',
+        }"
+      />
+    </div>
+
+    <div class="max-w-7xl mx-auto w-full relative z-10">
+      <!-- Scroll Progress Indicator with gradient animation -->
+      <Motion
+        class="fixed top-0 left-0 right-0 h-1 bg-black dark:bg-white origin-left z-50 shadow-lg shadow-blue-500/50"
         :style="{
           scaleX: scrollProgress,
+        }"
+        :animate="{
+          backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+        }"
+        :transition="{
+          backgroundPosition: {
+            duration: 3,
+            repeat: Infinity,
+            ease: 'linear',
+          },
         }"
       />
 
       <!-- Section Title -->
       <Motion
-        :initial="{ y: -50, opacity: 0 }"
-        :animate="{ y: 0, opacity: 1 }"
-        :transition="{ duration: 0.8, delay: 0.1 }"
+        class="title-section"
+        :initial="{ y: -100, opacity: 0, scale: 0.5, rotateX: -90 }"
+        :animate="
+          titleVisible
+            ? { y: 0, opacity: 1, scale: 1, rotateX: 0 }
+            : { y: -100, opacity: 0, scale: 0.5, rotateX: -90 }
+        "
+        :transition="{ duration: 1, delay: 0.2, type: 'spring', stiffness: 100, damping: 15 }"
       >
         <h2
           class="text-6xl md:text-8xl font-bebas font-bold text-black dark:text-white mb-2 text-center"
         >
-          WHO AM I?
+          {{ getTranslation(locale, 'about.title') }}
         </h2>
-        <div class="w-32 h-1 bg-black dark:bg-white mx-auto mb-16"></div>
+        <Motion
+          :initial="{ scaleX: 0, opacity: 0 }"
+          :animate="titleVisible ? { scaleX: 1, opacity: 1 } : { scaleX: 0, opacity: 0 }"
+          :transition="{ duration: 0.8, delay: 0.6, ease: 'easeOut' }"
+          class="w-32 h-1 bg-black dark:bg-white mx-auto mb-16 origin-center"
+        ></Motion>
       </Motion>
 
       <div class="grid grid-cols-1 lg:grid-cols-5 gap-20 items-center">
         <!-- Left: Avatar with Tech Logos (3 columns) -->
-        <div class="lg:col-span-2 flex justify-center">
+        <div class="lg:col-span-2 flex justify-center avatar-section">
           <Motion
             class="relative w-fit"
-            :initial="{ scale: 0, opacity: 0 }"
-            :animate="{ scale: 1, opacity: 1 }"
+            :initial="{ scale: 0, opacity: 0, rotateY: -180 }"
+            :animate="
+              avatarVisible
+                ? { scale: 1, opacity: 1, rotateY: 0 }
+                : { scale: 0, opacity: 0, rotateY: -180 }
+            "
             :transition="{
-              duration: 0.8,
+              duration: 1.2,
               delay: 0.3,
               type: 'spring',
-              stiffness: 100,
+              stiffness: 80,
               damping: 15,
             }"
           >
             <!-- Avatar -->
             <div
-              class="w-[280px] h-[280px] md:w-[380px] md:h-[380px] group rounded-full overflow-hidden border-[8px] border-slate-800 dark:border-white shadow-2xl relative z-10 bg-gradient-to-br from-slate-100 to-slate-300 dark:from-slate-800 dark:to-slate-900"
+              class="w-[280px] h-[280px] md:w-[380px] md:h-[380px] group rounded-full overflow-hidden border-8 border-slate-800 dark:border-white shadow-2xl relative z-10 bg-linear-to-br from-slate-100 to-slate-300 dark:from-slate-800 dark:to-slate-900"
             >
               <img
                 src="/src/assets/images/avatar.jpeg"
@@ -134,7 +261,7 @@ const techLogos = [
             <Motion
               v-for="(tech, index) in techLogos"
               :key="tech.name"
-              class="tech-logo absolute w-16 h-16 md:w-20 md:h-20 bg-white dark:bg-slate-800 rounded-full shadow-2xl flex items-center justify-center border-[3px] border-slate-300 dark:border-slate-600 hover:scale-125 transition-all duration-300 z-20 backdrop-blur-sm"
+              class="tech-logo absolute w-16 h-16 md:w-14 md:h-14 bg-white dark:bg-slate-800 rounded-full shadow-2xl flex items-center justify-center border-[3px] border-slate-300 dark:border-slate-600 hover:scale-125 transition-all duration-300 z-20 backdrop-blur-sm"
               :style="{
                 '--mobile-top': tech.positionMobile.top,
                 '--mobile-bottom': tech.positionMobile.bottom,
@@ -190,11 +317,7 @@ const techLogos = [
                 },
               }"
             >
-              <img
-                :src="tech.icon"
-                :alt="tech.name"
-                class="w-10 h-10 md:w-12 md:h-12 object-contain"
-              />
+              <img :src="tech.icon" :alt="tech.name" class="w-8 h-8 object-contain" />
             </Motion>
           </Motion>
         </div>
@@ -202,70 +325,84 @@ const techLogos = [
         <!-- Right: Content (3 columns) -->
         <div class="lg:col-span-3 space-y-6 lg:pl-8">
           <Motion
-            :initial="{ x: 100, opacity: 0 }"
-            :animate="{ x: 0, opacity: 1 }"
-            :transition="{ duration: 0.8, delay: 0.4 }"
+            class="text-1"
+            :initial="{ x: 200, opacity: 0, rotateY: 90, scale: 0.8 }"
+            :animate="
+              text1Visible
+                ? { x: 0, opacity: 1, rotateY: 0, scale: 1 }
+                : { x: 200, opacity: 0, rotateY: 90, scale: 0.8 }
+            "
+            :transition="{ duration: 1, delay: 0.2, type: 'spring', stiffness: 80, damping: 15 }"
           >
             <p
-              class="text-xl text-justify md:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed"
+              class="text-xl text-justify md:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed transition-all duration-300 hover:text-black dark:hover:text-white hover:scale-[1.02] cursor-default"
             >
-              Hello! I'm
-              <span class="font-bold text-black dark:text-white text-2xl md:text-3xl"
-                >Dwi Cahyo Nugroho</span
-              >, a passionate
-              <span class="font-bold">Fullstack Developer</span>
-              for over 1 years. Specializing in building dynamic and intuitive user experiences with
+              {{ getTranslation(locale, 'about.intro') }}
+              <span class="font-bold text-black dark:text-white text-2xl md:text-3xl">{{
+                getTranslation(locale, 'about.name')
+              }}</span
+              >{{ getTranslation(locale, 'about.introText') }}
               <a href="#" class="hover:underline font-semibold underline">Vue.js</a>
-              and
+              {{ getTranslation(locale, 'about.and') }}
               <a href="#" class="hover:underline font-semibold underline">Laravel</a>.
             </p>
           </Motion>
 
           <Motion
-            :initial="{ x: 100, opacity: 0 }"
-            :animate="{ x: 0, opacity: 1 }"
-            :transition="{ duration: 0.8, delay: 0.5 }"
+            class="text-2"
+            :initial="{ x: -200, opacity: 0, rotateX: -90, scale: 0.8 }"
+            :animate="
+              text2Visible
+                ? { x: 0, opacity: 1, rotateX: 0, scale: 1 }
+                : { x: -200, opacity: 0, rotateX: -90, scale: 0.8 }
+            "
+            :transition="{ duration: 1, delay: 0.3, type: 'spring', stiffness: 80, damping: 15 }"
           >
             <p
-              class="text-lg text-justify md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed"
+              class="text-lg text-justify md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed transition-all duration-300 hover:text-slate-900 dark:hover:text-slate-200 hover:scale-[1.02] cursor-default"
             >
-              As a self-taught developer, my journey has been fueled by an insatiable curiosity and
-              a commitment to continuous learning. I gained valuable experience in integrating
-              various backend technologies like
-              <span class="font-semibold">Laravel</span>, <span class="font-semibold">PHP</span>,
-              and <span class="font-semibold">MySQL</span>, as well as advanced technologies.
+              {{ getTranslation(locale, 'about.bio1') }}
             </p>
           </Motion>
 
           <Motion
-            :initial="{ x: 100, opacity: 0 }"
-            :animate="{ x: 0, opacity: 1 }"
-            :transition="{ duration: 0.8, delay: 0.6 }"
+            class="text-3"
+            :initial="{ y: 100, opacity: 0, scale: 0.5, rotateZ: -45 }"
+            :animate="
+              text3Visible
+                ? { y: 0, opacity: 1, scale: 1, rotateZ: 0 }
+                : { y: 100, opacity: 0, scale: 0.5, rotateZ: -45 }
+            "
+            :transition="{ duration: 1, delay: 0.4, type: 'spring', stiffness: 80, damping: 15 }"
           >
             <p
-              class="text-lg text-justify md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed"
+              class="text-lg text-justify md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed transition-all duration-300 hover:text-slate-900 dark:hover:text-slate-200 hover:scale-[1.02] cursor-default"
             >
-              Beyond writing code, I'm passionate about sharing my knowledge and experiences in web
-              development on social media. I am always excited to explore new technologies, solve
-              problems creatively, and contribute to projects that have a real impact.
+              {{ getTranslation(locale, 'about.bio2') }}
             </p>
           </Motion>
 
           <Motion
-            :initial="{ x: 100, opacity: 0 }"
-            :animate="{ x: 0, opacity: 1 }"
-            :transition="{ duration: 0.8, delay: 0.7 }"
+            class="text-4"
+            :initial="{ x: 200, y: 100, opacity: 0, scale: 0.3, rotateY: 180 }"
+            :animate="
+              text4Visible
+                ? { x: 0, y: 0, opacity: 1, scale: 1, rotateY: 0 }
+                : { x: 200, y: 100, opacity: 0, scale: 0.3, rotateY: 180 }
+            "
+            :transition="{ duration: 1.2, delay: 0.5, type: 'spring', stiffness: 80, damping: 15 }"
           >
             <p
-              class="text-xl md:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed font-medium"
+              class="text-xl md:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed font-medium transition-all duration-300 hover:text-black dark:hover:text-white hover:scale-[1.02] cursor-default"
             >
-              I am open to new opportunities and collaborations! Feel free to reach out to me. 🚀
+              {{ getTranslation(locale, 'about.cta') }}
             </p>
           </Motion>
         </div>
       </div>
     </div>
   </section>
+  <div class="p-20 bg-white"></div>
 </template>
 
 <style scoped>
