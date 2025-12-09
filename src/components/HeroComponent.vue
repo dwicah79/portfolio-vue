@@ -2,14 +2,12 @@
 import { computed } from 'vue'
 import { Github, Instagram, Linkedin } from 'lucide-vue-next'
 import NavBar from './NavBar.vue'
-import { useMousePosition } from '@/composables/useMousePosition'
 import { useLanguage } from '@/composables/useLanguage'
 import { useTheme } from '@/composables/useTheme'
 import { SOCIAL_LINKS } from '@/constants'
 import { getTranslation } from '@/constants/translations'
 
 // Composables
-const { mouseX, mouseY, handleMove } = useMousePosition()
 const { locale } = useLanguage()
 const { theme } = useTheme()
 
@@ -29,14 +27,7 @@ const socialLinks = SOCIAL_LINKS.map((link) => ({
 <template>
   <header
     class="w-screen h-screen bg-white dark:bg-black flex items-center justify-center relative overflow-hidden"
-    @mousemove="handleMove"
   >
-    <div
-      class="w-[150px] h-[150px] fixed pointer-events-none rounded-full blur-2xl -translate-x-1/2 -translate-y-1/2 mix-blend-screen z-2"
-      style="background: radial-gradient(circle, rgba(0, 255, 255, 0.3), rgba(0, 255, 255, 0) 70%)"
-      :style="{ left: mouseX + 'px', top: mouseY + 'px' }"
-    />
-
     <NavBar />
 
     <div class="relative z-10 flex items-center justify-center w-full px-4">
