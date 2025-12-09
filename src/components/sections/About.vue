@@ -50,9 +50,6 @@ onMounted(() => {
   }
 })
 
-// Parallax offset calculation
-const parallaxOffset = computed(() => scrollY.value * 0.5)
-
 // Skills data
 const skills = [
   { name: 'Vue.js', level: 90, category: 'Frontend' },
@@ -91,9 +88,9 @@ const experiences = [
 <template>
   <section
     id="about"
-    class="min-h-screen w-full bg-white dark:bg-black py-20 px-6 md:px-12 lg:px-20 transition-colors duration-500"
+    class="min-h-screen w-full bg-white dark:bg-black py-20 px-6 md:px-12 lg:px-20 transition-colors duration-500 relative overflow-hidden"
   >
-    <div class="max-w-7xl mx-auto">
+    <div class="max-w-7xl mx-auto relative z-10">
       <!-- Section Header -->
       <Motion
         :initial="{ y: -50, opacity: 0 }"
