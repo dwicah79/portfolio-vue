@@ -3,6 +3,8 @@ import HeroComponent from './components/HeroComponent.vue'
 import AboutSection from './components/sections/About.vue'
 import GithubActivity from './components/sections/GithubActivity.vue'
 import Experience from './components/sections/Experience.vue'
+import Contact from './components/sections/Contact.vue'
+import Footer from './components/sections/Footer.vue'
 import { useTheme } from '@/composables/useTheme'
 import { useMousePosition } from '@/composables/useMousePosition'
 
@@ -26,6 +28,8 @@ const { mouseX, mouseY, handleMove } = useMousePosition()
     <AboutSection />
     <Experience />
     <GithubActivity />
+    <Contact />
+    <Footer />
   </div>
 </template>
 
