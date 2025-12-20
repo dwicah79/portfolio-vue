@@ -90,13 +90,13 @@ const techLogos = [
   {
     name: 'JavaScript',
     icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg',
-    positionMobile: { top: '-25%', left: '50%', transform: 'translate(-50%, -50%)' },
+    positionMobile: { top: '-25%', left: '30%', transform: 'translate(-50%, -50%)' },
     positionDesktop: { top: '-30%', left: '40%', transform: 'translate(-50%, -50%)' },
   },
   {
     name: 'Vue.js',
     icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg',
-    positionMobile: { top: '5%', right: '-10%', transform: 'translate(0, 0)' },
+    positionMobile: { top: '-5%', right: '-10%', transform: 'translate(0, 0)' },
     positionDesktop: { top: '0%', right: '-30%', transform: 'translate(0, 0)' },
   },
   {
@@ -108,31 +108,31 @@ const techLogos = [
   {
     name: 'Laravel',
     icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg',
-    positionMobile: { bottom: '25%', right: '-10%', transform: 'translate(0, 0)' },
+    positionMobile: { bottom: '-10%', right: '-10%', transform: 'translate(0, 0)' },
     positionDesktop: { bottom: '17%', right: '-30%', transform: 'translate(0, 0)' },
   },
   {
     name: 'PHP',
     icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg',
-    positionMobile: { bottom: '-25%', left: '50%', transform: 'translate(-50%, 50%)' },
+    positionMobile: { bottom: '-35%', left: '50%', transform: 'translate(-50%, 50%)' },
     positionDesktop: { bottom: '-30%', left: '40%', transform: 'translate(-50%, 50%)' },
   },
   {
     name: 'Nuxt',
     icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nuxtjs/nuxtjs-original.svg',
-    positionMobile: { bottom: '25%', left: '-10%', transform: 'translate(0, 0)' },
+    positionMobile: { bottom: '-35%', left: '10%', transform: 'translate(0, 0)' },
     positionDesktop: { bottom: '17%', left: '-35%', transform: 'translate(0, 0)' },
   },
   {
     name: 'MySQL',
     icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg',
-    positionMobile: { top: '40%', left: '-15%', transform: 'translate(0, -50%)' },
+    positionMobile: { top: '80%', left: '-25%', transform: 'translate(0, -50%)' },
     positionDesktop: { top: '30%', left: '-40%', transform: 'translate(0, -50%)' },
   },
   {
     name: 'PostgreSQL',
     icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg',
-    positionMobile: { top: '5%', left: '-10%', transform: 'translate(0, 0)' },
+    positionMobile: { top: '5%', left: '-20%', transform: 'translate(0, 0)' },
     positionDesktop: { top: '0%', left: '-30%', transform: 'translate(0, 0)' },
   },
 ]
