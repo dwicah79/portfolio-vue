@@ -7,19 +7,6 @@ import pdfCv from '@/assets/images/cv.pdf'
 // Composables
 const { locale } = useLanguage()
 
-// Scroll progress (manual implementation)
-const scrollProgress = ref(0)
-
-const updateScrollProgress = () => {
-  const windowHeight = window.innerHeight
-  const documentHeight = document.documentElement.scrollHeight
-  const scrollTop = window.scrollY || document.documentElement.scrollTop
-
-  // Calculate scroll progress (0 to 1)
-  const scrollable = documentHeight - windowHeight
-  scrollProgress.value = scrollable > 0 ? scrollTop / scrollable : 0
-}
-
 // Intersection Observer untuk scroll animations
 const titleVisible = ref(false)
 const avatarVisible = ref(false)
@@ -29,9 +16,6 @@ const text3Visible = ref(false)
 const text4Visible = ref(false)
 
 onMounted(() => {
-  window.addEventListener('scroll', updateScrollProgress, { passive: true })
-  updateScrollProgress()
-
   // Setup Intersection Observer untuk animasi scroll
   const options = {
     threshold: 0.2,
@@ -79,10 +63,6 @@ onMounted(() => {
     if (text3El) observer.observe(text3El)
     if (text4El) observer.observe(text4El)
   }, 100)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', updateScrollProgress)
 })
 
 // Tech stack logos with positions (circular arrangement)
@@ -186,24 +166,6 @@ const techLogos = [
     </div>
 
     <div class="max-w-7xl mx-auto w-full relative z-10">
-      <!-- Scroll Progress Indicator with gradient animation -->
-      <Motion
-        class="fixed top-0 left-0 right-0 h-1 bg-black dark:bg-white origin-left z-50 shadow-lg shadow-blue-500/50"
-        :style="{
-          scaleX: scrollProgress,
-        }"
-        :animate="{
-          backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-        }"
-        :transition="{
-          backgroundPosition: {
-            duration: 3,
-            repeat: Infinity,
-            ease: 'linear',
-          },
-        }"
-      />
-
       <!-- Section Title -->
       <Motion
         class="title-section"
