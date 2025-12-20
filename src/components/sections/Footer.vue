@@ -44,7 +44,7 @@ const quickLinks = [
           <p class="text-slate-400 leading-relaxed">
             {{
               locale === 'id'
-                ? 'Full-stack Developer yang passionate dalam membangun solusi digital inovatif.'
+                ? 'Full-stack Developer yang bersemangat dalam merancang dan membangun solusi digital inovatif, efisien, dan berdampak.'
                 : 'Passionate Full-stack Developer building innovative digital solutions.'
             }}
           </p>
