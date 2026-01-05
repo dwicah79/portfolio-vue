@@ -22,7 +22,7 @@ const projects = [
       'Landing page for Cendrawasih Rent Car featuring vehicle listings, booking system.',
     descriptionId:
       'Pembuatan website sewa mobil Cendrawasih dengan fitur daftar kendaraan dan pemesanan via WhatsApp.',
-    tech: ['Vue Js', 'Tailwind CSS'],
+    tech: ['Vue Js', 'Tailwind CSS', 'SEO Optimization'],
     image: imageCendrawasih,
     link: 'https://www.sewamobiltangselcendrawasih.com/',
     github: 'https://github.com/dwicah79',
