@@ -4,6 +4,7 @@ import { useLanguage } from '@/composables/useLanguage'
 import imageSedulur from '@/assets/images/image.png'
 import imageKretek from '@/assets/images/kretek.png'
 import imageSapen from '@/assets/images/sapen.png'
+import imageCendrawasih from '@/assets/images/cendreawasih.png'
 import imageRebil from '@/assets/images/rebil.png'
 
 const { locale } = useLanguage()
@@ -14,6 +15,19 @@ const projectsVisible = ref([])
 
 // Recent Projects Data
 const projects = [
+  {
+    id: 5,
+    title: 'Cendrawasih Rent Car (Landing Page)',
+    description:
+      'Landing page for Cendrawasih Rent Car featuring vehicle listings, booking system.',
+    descriptionId:
+      'Pembuatan website sewa mobil Cendrawasih dengan fitur daftar kendaraan dan pemesanan via WhatsApp.',
+    tech: ['Vue Js', 'Tailwind CSS'],
+    image: imageCendrawasih,
+    link: 'https://www.sewamobiltangselcendrawasih.com/',
+    github: 'https://github.com/dwicah79',
+    year: '2025',
+  },
   {
     id: 3,
     title: 'Super Sapen (SD Muhammadiyah Sapen PMB)',
@@ -136,7 +150,13 @@ onMounted(() => {
         :animate="
           sectionVisible ? { y: 0, opacity: 1, scale: 1 } : { y: -100, opacity: 0, scale: 0.5 }
         "
-        :transition="{ duration: 1, delay: 0.2, type: 'spring', stiffness: 100, damping: 15 }"
+        :transition="{
+          duration: 1,
+          delay: 0.2,
+          type: 'spring',
+          stiffness: 100,
+          damping: 15,
+        }"
       >
         <h2
           class="text-6xl md:text-8xl font-bebas font-bold text-black dark:text-white mb-2 text-center"
