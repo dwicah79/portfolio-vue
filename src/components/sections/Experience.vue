@@ -4,7 +4,7 @@ import { useLanguage } from '@/composables/useLanguage'
 import imageSedulur from '@/assets/images/image.png'
 import imageKretek from '@/assets/images/kretek.png'
 import imageSapen from '@/assets/images/sapen.png'
-import imageCendrawasih from '@/assets/images/cendreawasih.png'
+import imageCendrawasih from '@/assets/images/cendrawasih.png'
 import imageRebil from '@/assets/images/rebil.png'
 import imageChenoa from '@/assets/images/chenoa.png'
 
@@ -318,4 +318,6 @@ onMounted(() => {
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
 .font-bebas {
-  font-family: 'Bebas Neue'
+  font-family: 'Bebas Neue', sans-serif;
+}
+</style>
