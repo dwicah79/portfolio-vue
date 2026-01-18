@@ -6,6 +6,7 @@ import imageKretek from '@/assets/images/kretek.png'
 import imageSapen from '@/assets/images/sapen.png'
 import imageCendrawasih from '@/assets/images/cendreawasih.png'
 import imageRebil from '@/assets/images/rebil.png'
+import imageChenoa from '@/assets/images/chenoa.png'
 
 const { locale } = useLanguage()
 
@@ -15,6 +16,18 @@ const projectsVisible = ref([])
 
 // Recent Projects Data
 const projects = [
+  {
+    id: 5,
+    title: 'Chenoa Beauty Room (Landing Page)',
+    description: 'Landing page for Chenoa Beauty Room featuring service listings, booking system.',
+    descriptionId:
+      'Pembuatan website Chenoa Beauty Room dengan fitur daftar layanan dan pemesanan via WhatsApp.',
+    tech: ['Vue Js', 'Tailwind CSS', 'SEO Optimization'],
+    image: imageChenoa,
+    link: 'https://chenoa-beautyroom.vercel.app/',
+    github: 'https://github.com/dwicah79',
+    year: '2025',
+  },
   {
     id: 5,
     title: 'Cendrawasih Rent Car (Landing Page)',
@@ -305,6 +318,4 @@ onMounted(() => {
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
 .font-bebas {
-  font-family: 'Bebas Neue', sans-serif;
-}
-</style>
+  font-family: 'Bebas Neue'
